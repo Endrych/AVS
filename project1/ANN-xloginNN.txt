@@ -1,0 +1,99 @@
+Architektura výpočetních systému (AVS 2019)
+Projekt č. 1 (ANN)
+Login: xlogin00
+
+U každého kroku proveďte měření vypočtu pro dataset dostupný na https://www.fit.vutbr.cz/~ibordovsky/avs/datasets/bigDataset.h5
+Správnost výpočtu můžete porovnat pomocí python 3 skriptu "Scripts/compareOutputs.py" s referenčním řešením.
+Pro bigDataset je dostupný na https://www.fit.vutbr.cz/~ibordovsky/avs/datasets/bigRefOutput.h5
+
+Krok 0: základní implementace
+=============================
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Které PAPI_EVENTS jste použili pro získání počtu výpadků v paměti?
+HW countery pro L1:
+HW countery pro L2:
+HW countery pro L3:
+
+
+Krok 1: vektorizace funkcí
+===================================
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Jaké pragmy bylo potřeba přidat?
+-
+Které dovětky k pragmám jste použili a jaky měly vliv na kompilátorem generované funkce? (main.cpp.optrpt/neuron.cpp.optrpt)
+-
+
+
+Krok 2: přístupy do paměti
+=============================
+a) S dovětky
+(Sepište všechyn použité dovětky):
+
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+b) Bez dovětků
+Některé dovětky maji negativní dopad na výkon, přestože kompilátor tvrdí opak. Které?
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Proč mají dovětky negativní efekt na výkon?
+(neklasifikovana odpověď, můžete vynechat, ale může vynést přiklonění k bodu u věcí které jsou na hraně :-) )
+-
+
+
+Krok 3.1: přesun #pragma omp simd
+===================================
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Jaký dovětek je potřeba přidat?
+-
+
+Krok 3.2: vykonání po vrstvách místo po obrázcích
+===================================
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Popište, jaký dopad na výkon mají výpadky v cache.
+-
+
+Krok 4: režie funkcí, zarovnání paměti
+===================================
+Celkový čas [s]:
+Výkon skalárních operací [MFLOPS]:      ??
+Výkon vektorových operací [MFLOPS]:     ??
+L1 miss [%]:                            ??
+L2 miss [%]:                            ??
+L3 miss [%]:                            ??
+
+Proč není zrychlení již výrazné? Na jaké typy problémů cílí tyto optimalizace?
+-
