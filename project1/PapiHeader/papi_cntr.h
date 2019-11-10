@@ -1184,9 +1184,14 @@ bool PapiCounter::IsDerivedStatAvailable(const DerivedStatistics statIdx) const
       return findString(names, std::string("PAPI_SP_OPS")) >= 0 ? true : false;
     case Derived_L1_DMR:
       return (
-              findString(names, std::string("PAPI_L1_DCA")) >= 0 &&
-              findString(names, std::string("PAPI_L1_DCM")) >= 0
-              );
+              findString(names, std::string("PAPI_L1_DCM")) >= 0 &&
+              ( 
+		findString(names, std::string("PAPI_L1_DCA")) >= 0 || (
+		findString(names, std::string("PAPI_LD_INS")) >= 0 &&
+		findString(names, std::string("PAPI_SR_INS")) >= 0
+		)
+	      )
+             );
     case Derived_L2_DMR:
       return (
               findString(names, std::string("PAPI_L2_DCA")) >= 0 &&
@@ -1279,11 +1284,22 @@ std::vector<double> PapiCounter::ComputederivedStat(DerivedStatistics statIdx)
       
     case Derived_L1_DMR:
       idxCM = findString(names, std::string("PAPI_L1_DCM"));
-      idxCA = findString(names, std::string("PAPI_L1_DCA"));
-      
       for (int tid = 0; tid < GetNumThreads(); tid++)
       {
-        derived[tid] = (double) GetValue(tid, idxCM) / (double) GetValue(tid, idxCA);
+      	double access = 0.0;
+      	if ((idxCA = findString(names, std::string("PAPI_LD_INS"))) >= 0) {
+          access = (double) GetValue(tid, idxCA);
+      	} else { 
+          access = (double) GetValue(
+            	tid, 
+            	findString(names, std::string("PAPI_LD_INS"))
+            ) + (double) GetValue(
+                tid,
+                findString(names, std::string("PAPI_SR_INS"))
+            );
+        }
+
+        derived[tid] = (double) GetValue(tid, idxCM) / access;
       }
       return derived;
       

@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -q qexp
+#PBS -N avs
+#PBS -l select=1:ncpus=16,walltime=1:00:00
+#PBS -A DD-19-32-21
+#PBS -o ./outlog
+#PBS -e ./errlog
+
+cd $PBS_O_WORKDIR
+
+# load modules
+ml intel PAPI HDF5 CMake Python/3.6.1
+
+rm -r build
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_PAPI=1 -DSTEPS='0;1;2;3;4'
+make -j
+
+PAPI_EVENTS="PAPI_FP_OPS|PAPI_SP_OPS" ./Step0/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step0/output.h5
+PAPI_EVENTS="PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM|PAPI_L2_DCA|PAPI_L2_DCM|PAPI_L3_TCA|PAPI_L3_TCM" ./Step0/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step0/output.h5
+PAPI_EVENTS="PAPI_FP_OPS|PAPI_SP_OPS" ./Step1/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step1/output.h5
+PAPI_EVENTS="PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM|PAPI_L2_DCA|PAPI_L2_DCM|PAPI_L3_TCA|PAPI_L3_TCM" ./Step1/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step1/output.h5
+PAPI_EVENTS="PAPI_FP_OPS|PAPI_SP_OPS" ./Step2/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step2/output.h5
+PAPI_EVENTS="PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM|PAPI_L2_DCA|PAPI_L2_DCM|PAPI_L3_TCA|PAPI_L3_TCM" ./Step2/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step2/output.h5
+PAPI_EVENTS="PAPI_FP_OPS|PAPI_SP_OPS" ./Step3/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step3/output.h5
+PAPI_EVENTS="PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM|PAPI_L2_DCA|PAPI_L2_DCM|PAPI_L3_TCA|PAPI_L3_TCM" ./Step3/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step3/output.h5
+PAPI_EVENTS="PAPI_FP_OPS|PAPI_SP_OPS" ./Step4/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step4/output.h5
+PAPI_EVENTS="PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM|PAPI_L2_DCA|PAPI_L2_DCM|PAPI_L3_TCA|PAPI_L3_TCM" ./Step4/ANN ../Data/network.h5 ../Data/bigDataset.h5 ./Step4/output.h5
+
+
+cd ..
+python3 Scripts/compareOutputs.py build/Step3/output.h5 Data/bigRefOutput.h5
+python3 Scripts/compareOutputs.py build/Step4/output.h5 Data/bigRefOutput.h5
+
