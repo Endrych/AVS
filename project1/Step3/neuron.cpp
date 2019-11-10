@@ -10,18 +10,17 @@
 
 float evalNeuron(
   size_t inputSize,
-  size_t neuronCount,
   const float* input,
   const float* weights,
-  float bias,
-  size_t neuronId
+  float bias
 )
 {
   //TODO: Step0 - Fill in the implementation, all the required arguments are passed.
   //              If you don't use them all you are doing something wrong!
-    float sum = 0;
+    float sum = 0.0;
+    #pragma omp simd reduction(+:sum)
     for(int i=0;i<inputSize;i++){
-      sum += input[i] * weights[i * neuronCount + neuronId];
+      sum += input[i] * weights[i];
     }
 
     sum += bias;
