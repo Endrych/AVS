@@ -23,22 +23,20 @@ HW countery pro L3: PAPI_L3_TCA|PAPI_L3_TCM
 
 Krok 1: vektorizace funkcí
 ===================================
-Celkový čas [s]: 49.9444 s
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 49.87
+Výkon skalárních operací [MFLOPS]:      0.227588
+Výkon vektorových operací [MFLOPS]:     8549.73
+L1 miss [%]:                            49.7%
+L2 miss [%]:                            99.9%
+L3 miss [%]:                            0.0293%
 
 Jaké pragmy bylo potřeba přidat?
 -   #pragma omp simd -  V main.cpp ve funkci evaluateLayer
 -   #pragma omp declare simd - V neuron.h
 
 Které dovětky k pragmám jste použili a jaky měly vliv na kompilátorem generované funkce? (main.cpp.optrpt/neuron.cpp.optrpt)
-- notinbranch
-- simdlen(4)
-- uniform
-- linear
+- notinbranch - Udává kompilátoru, že funkce není volána v cyklu podmíněne 
+- simdlen, uniform, linear - Vygenerovalo to vhodnou vektorovou variantu funkce s parametry (uniform,uniform,uniform,uniform,vector,linear:1)
 
 Krok 2: přístupy do paměti
 =============================
