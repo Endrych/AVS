@@ -37,18 +37,22 @@ Jaké pragmy bylo potřeba přidat?
 Které dovětky k pragmám jste použili a jaky měly vliv na kompilátorem generované funkce? (main.cpp.optrpt/neuron.cpp.optrpt)
 - notinbranch - Udává kompilátoru, že funkce není volána v cyklu podmíněne 
 - simdlen, uniform, linear - Vygenerovalo to vhodnou vektorovou variantu funkce s parametry (uniform,uniform,uniform,uniform,vector,linear:1)
+- simdlen - Určuje kolik iterací ve smyčce se vykoná zároveň
+- uniform - Konstanta v rámci funkce
+- linear - Data jsou linearně zasebou o určitý posul podle iterace cyklu 
 
 Krok 2: přístupy do paměti
 =============================
 a) S dovětky
 (Sepište všechyn použité dovětky):
+simdlen, notinbranch, uniform, linear
 
-Celkový čas [s]:
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 22.0775
+Výkon skalárních operací [MFLOPS]:      175.084 
+Výkon vektorových operací [MFLOPS]:     14623.3
+L1 miss [%]:                            15.8%
+L2 miss [%]:                            51.1%
+L3 miss [%]:                            0.0613%
 
 b) Bez dovětků
 Některé dovětky maji negativní dopad na výkon, přestože kompilátor tvrdí opak. Které?
@@ -66,36 +70,38 @@ Proč mají dovětky negativní efekt na výkon?
 
 Krok 3.1: přesun #pragma omp simd
 ===================================
-Celkový čas [s]:
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 22.0984
+Výkon skalárních operací [MFLOPS]:      176.613
+Výkon vektorových operací [MFLOPS]:     14673.2
+L1 miss [%]:                            15.8%
+L2 miss [%]:                            52.1% 
+L3 miss [%]:                            0.0539%
 
 Jaký dovětek je potřeba přidat?
 - reduction
 
 Krok 3.2: vykonání po vrstvách místo po obrázcích
 ===================================
-Celkový čas [s]:
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 22.9811
+Výkon skalárních operací [MFLOPS]:      306.205
+Výkon vektorových operací [MFLOPS]:     14115.7
+L1 miss [%]:                            14.8%
+L2 miss [%]:                            51.5%
+L3 miss [%]:                            0.209%
 
 Popište, jaký dopad na výkon mají výpadky v cache.
--
+- Je potřeba sahat do paměti, což je časově náročné.
 
 Krok 4: režie funkcí, zarovnání paměti
 ===================================
-Celkový čas [s]:
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 21.2114
+Výkon skalárních operací [MFLOPS]:      23.3991
+Výkon vektorových operací [MFLOPS]:     10236
+L1 miss [%]:                            12.4%
+L2 miss [%]:                            56%
+L3 miss [%]:                            0.173%
 
 Proč není zrychlení již výrazné? Na jaké typy problémů cílí tyto optimalizace?
--
+Díky malým výpadkům v cache pamětích nedochází k velkému počtu přístupu k datům do hlavní paměti a to je důvod proč zarování paměti výrazně nezrychluje program.
+- inline - Zmenšení režie, vhodné pro malé funkce, které se v programu často volají
+- zarovnání paměti - Zmenšení počtu přístupu k datům.
