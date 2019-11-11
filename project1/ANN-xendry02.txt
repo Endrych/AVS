@@ -8,17 +8,17 @@ Pro bigDataset je dostupný na https://www.fit.vutbr.cz/~ibordovsky/avs/datasets
 
 Krok 0: základní implementace
 =============================
-Celkový čas [s]: 197.277
-Výkon skalárních operací [MFLOPS]:      ??
-Výkon vektorových operací [MFLOPS]:     ??
-L1 miss [%]:                            ??
-L2 miss [%]:                            ??
-L3 miss [%]:                            ??
+Celkový čas [s]: 194.19
+Výkon skalárních operací [MFLOPS]:      36.3895
+Výkon vektorových operací [MFLOPS]:     1138.57
+L1 miss [%]:                            86.2%
+L2 miss [%]:                            100%
+L3 miss [%]:                            0.00732%
 
 Které PAPI_EVENTS jste použili pro získání počtu výpadků v paměti?
-HW countery pro L1:
-HW countery pro L2:
-HW countery pro L3:
+HW countery pro L1: PAPI_LD_INS|PAPI_SR_INS|PAPI_L1_DCM
+HW countery pro L2: PAPI_L2_DCA|PAPI_L2_DCM
+HW countery pro L3: PAPI_L3_TCA|PAPI_L3_TCM
 
 
 Krok 1: vektorizace funkcí
@@ -31,10 +31,14 @@ L2 miss [%]:                            ??
 L3 miss [%]:                            ??
 
 Jaké pragmy bylo potřeba přidat?
--
-Které dovětky k pragmám jste použili a jaky měly vliv na kompilátorem generované funkce? (main.cpp.optrpt/neuron.cpp.optrpt)
--
+-   #pragma omp simd -  V main.cpp ve funkci evaluateLayer
+-   #pragma omp declare simd - V neuron.h
 
+Které dovětky k pragmám jste použili a jaky měly vliv na kompilátorem generované funkce? (main.cpp.optrpt/neuron.cpp.optrpt)
+- notinbranch
+- simdlen(4)
+- uniform
+- linear
 
 Krok 2: přístupy do paměti
 =============================
@@ -72,7 +76,7 @@ L2 miss [%]:                            ??
 L3 miss [%]:                            ??
 
 Jaký dovětek je potřeba přidat?
--
+- reduction
 
 Krok 3.2: vykonání po vrstvách místo po obrázcích
 ===================================
