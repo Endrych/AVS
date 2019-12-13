@@ -1,7 +1,7 @@
 /**
  * @file    loop_mesh_builder.cpp
  *
- * @author  FULL NAME <xlogin00@stud.fit.vutbr.cz>
+ * @author  David Endrych <xendry02@stud.fit.vutbr.cz>
  *
  * @brief   Parallel Marching Cubes implementation using OpenMP loops
  *

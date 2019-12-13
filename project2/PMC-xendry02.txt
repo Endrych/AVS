@@ -1,6 +1,6 @@
 Architektury Výpočetních Systémů (AVS 2019)
 Projekt č. 2 (PMC)
-Login: xlogin00
+Login: xendry02
 
 Úloha 1: Paralelizace původního řešení
 ===============================================================================
