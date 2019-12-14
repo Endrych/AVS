@@ -7,23 +7,31 @@ Login: xendry02
 
 1) Kterou ze smyček (viz zadání) je vhodnější paralelizovat a co způsobuje 
    neefektivitu paralelizaci té druhé?
-
+    - Je vhodnější parelerizovat smyčku v marchCubes, jelikož se jedná o vnější smyčku. 
+      U druhé dochází k tomu, že režie je náročnější než práce, kterou vykonávají vlákna.
 2) Jaké plánování (rozdělení práce mezi vlákna) jste zvolili a proč? 
    Jaký vliv má velikost "chunk" při dynamickém plánování (8, 16, 32, 64)?
-
+    - Dynamic, nevíme které iterace jsou nejnáročnéjší a proto je výhodnější rozdělovat iterace dynamicky.
+    - OpenMP rozděluje iterace na bloky o velkosti chunk-size a ty přiřazuje postupně vláknům, které jsou volné.
 3) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+    - Pomocí pragmy omp critical.
 
 Úloha 2: Paralelní průchod stromem
 ===============================================================================
 
 1) Stručně popište použití OpenMP tasků ve vašem řešení.
+    - Pomocí jednoho vlákna se spustí vstupní volání processChildren v marchCubes, aby nedošlo k několikanásobnému 
+      počítání. Poté pro rekurzivní volání processChildren se vytváří nový task. Na konci processChildren je potřeba
+      počkat na dokončení výpočtů všech potomků pomocí taskwait.
 
 2) Jakým způsobem jste realizovali sesbírání celkového počtu trojúhelníků?
+    - Pomocí taskwait, je potřeba počkat na dokončení vytvořených tasku, taskum se preda sdilena promenna totalTriangles.
 
 3) Jaký vliv má na vaše řešení tzv. "cut-off"? Je vhodné vytvářet nový 
    task pro každou krychli na nejnižší úrovni?
 
 4) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+    - Pomocí pragmy omp critical v emitTriangle.
 
 Úloha 2: Grafy škálování obou řešení
 ===============================================================================
