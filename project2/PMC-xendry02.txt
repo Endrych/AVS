@@ -29,17 +29,20 @@ Login: xendry02
 
 3) Jaký vliv má na vaše řešení tzv. "cut-off"? Je vhodné vytvářet nový 
    task pro každou krychli na nejnižší úrovni?
+    - Má vliv na počet volání funkce, určuje jak hluboko jdeme ve stromu.
+    - Lepší je spojit více buildcube do jednoho vlákna, kvůli zmenšení režie.
 
 4) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
     - Pomocí pragmy omp critical v emitTriangle.
 
 Úloha 2: Grafy škálování obou řešení
 ===============================================================================
-
 1) Stručně zhodnoťte efektivitu vytvořených řešení (na základě grafů škálování).
-
+    - Octree je časově efektivnější než loop. Pro velké vstupy je výhodné mít dost vláken, ale u malých vstupů se velký počet vláken
+    nevyplatí a zpomaluje to algoritmus z důvodu režie.
 2) V jakém případě (v závislosti na počtu bodů ve vstupním souboru a velikosti 
    mřížky) bude vaše řešení 1. úlohy neefektivní? (pokud takový případ existuje)
-
+    - Při velkém počtu krychli, vhodné pro menší počty kostek.
 3) Je (nebo není) stromový algoritmus efektivnější z pohledu slabého škálování 
    vzhledem ke vstupu?
+    - Není. Protože u loopu časové rozdíli jednotlivých velikostí vstupů nejsou tak velké jako u octree.
